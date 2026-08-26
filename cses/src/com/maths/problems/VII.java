@@ -1,8 +1,7 @@
-package com.maths;
+package com.maths.problems;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.util.*;
 
 public class VII {
