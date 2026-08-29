@@ -1,3 +1,4 @@
+package com.range.problems;
 
 import java.io.*;
 import java.util.*;
@@ -11,7 +12,7 @@ public class P11 {
                 = new StringTokenizer(br.readLine());
         int n = Integer.parseInt(s2.nextToken());
         int q = Integer.parseInt(s2.nextToken());
-        int[] arr=new int[n];
+        long[] arr=new long[n];
         StringTokenizer s3
                 = new StringTokenizer(br.readLine());
         for(int i=0;i<n;i++) arr[i]=Integer.parseInt(s3.nextToken());
@@ -25,12 +26,12 @@ public class P11 {
         }
         solve(arr,que,n,q);
     }
-    void solve(int[] arr, int[][] que, int n, int q) {
+    void solve(long[] arr, int[][] que, int n, int q) {
         ArrayList<Long> res= new ArrayList<>();
         long[] dp=new long[n];
         dp[0]= arr[0];
         for(int i=1;i<n;i++) dp[i]= dp[i-1]+arr[i];
-        LP seg= new LP(dp,n);
+        LP seg= new LP(dp, n);
         seg.build(0,0,n-1);
         for (int i = 0; i < q; i++) {
             int type = que[i][0];
@@ -39,82 +40,79 @@ public class P11 {
                 int ind = que[i][1] - 1;
                 int val = que[i][2];
 
-                int diff = val - arr[ind];
+                long diff = val - arr[ind];
                 arr[ind] = val;
 
-                seg.update(0, 0, n - 1, ind, n - 1, diff);
+                seg.update(0, 0, n-1, ind, n - 1, diff);
             } else {
                 int s = que[i][1] - 1;
                 int e = que[i][2] - 1;
-
-                long sum = seg.query(0, 0, n - 1, s, e)
-                        - seg.query(0, 0, n - 1, s, s)
+                long sum = seg.query( 0, 0,n-1,s,e)
+                        - seg.query(0, 0, n-1, s,s)
                         + arr[s];
 
                 res.add(Math.max(sum, 0));
             }
         }
 
-        for (Long x : res) System.out.print(x+" ");
-        System.out.println();
+        for (Long x : res) System.out.println(x);
     }
 }
 
 class LP {
     int n;
-    int[] seg;
-    int[] lazy;
-    int[] arr;
-    LP(int[] arr,int n) {
+    long[] seg;
+    long[] lazy;
+    long[] arr;
+    LP(long[] arr,int n) {
         this.n=n;
-        this.seg=new int[4*n];
-        this.lazy=new int[4*n];
-        Arrays.fill(lazy,Integer.MAX_VALUE);
+        this.seg=new long[4*n];
+        this.lazy=new long[4*n];
+        Arrays.fill(lazy,0);
         this.arr=arr;
     }
-    int build(int low,int high,int ind) {
-        if(low>high) return Integer.MAX_VALUE;
+    long build(int ind, int low, int high) {
+        if(low>high) return Long.MIN_VALUE;
         if(low==high) return seg[ind]=arr[low];
         int m= low+(high-low)/2;
-        int left=build(low,m,ind*2+1);
-        int right=build(m+1,high,ind*2+2);
+        long left=build(ind*2+1, low,m);
+        long right=build(ind*2+2,m+1,high);
         return seg[ind]=push(left,right);
     }
-    int query(int s,int e,int low,int high,int ind) {
-        if (high < s || e < low) return Integer.MAX_VALUE;
+    long query(int ind, int low,int high, int s, int e) {
+        if (high < s || e < low) return Long.MIN_VALUE;
+        propogate(ind, low, high);
         if(s<=low && high<=e) {
             return seg[ind];
         }
         int m = low + (high - low) / 2;
-        propogate(ind);
-        int left = query(s, e, low, m, ind * 2 + 1);
-        int right = query(s, e, m + 1, high, ind * 2 + 2);
+        long left = query(ind*2+1, low, m, s, e);
+        long right = query( ind*2+2,m + 1, high, s, e);
         return push(left, right);
     }
-    int update(int low, int high, int ind, int s, int e, int val) {
+    long update(int ind, int low, int high, int s, int e, long val) {
         if (high < s || e < low) return seg[ind];
+        propogate(ind,low,high);
         if(s<=low && high<=e) {
-            lazy[ind]=val;
-            return seg[ind]=lazy[ind];
+            lazy[ind]+=val;
+            propogate(ind,low, high);
+            return seg[ind];
         }
         int m=low+(high-low)/2;
-        propogate(ind);
-        int left= update(low, m,ind*2+1, s, e, val);
-        int right= update(m+1, high,ind*2+2, s, e, val);
+        propogate(ind,low, high);
+        long left= update(ind*2+1,low, m, s, e, val);
+        long right= update(ind*2+2,m+1, high, s, e, val);
         return seg[ind]=push(left, right);
     }
-    void propogate(int ind) {
-        if(lazy[ind]==Integer.MAX_VALUE) return;
-        lazy[ind*2+1]=lazy[ind];
-        lazy[ind*2+2]=lazy[ind];
-        seg[ind*2+1]=lazy[ind];
-        seg[ind*2+2]=lazy[ind];
-        lazy[ind]=Integer.MAX_VALUE;
+    void propogate(int ind, int low, int high) {
+        seg[ind]+=lazy[ind];
+        if(low!=high) {
+            lazy[ind*2+1]+=lazy[ind];
+            lazy[ind*2+2]+=lazy[ind];
+        }
+        lazy[ind]=0;
     }
-    int push(int left, int right) {
-        return Math.min(left,right);
+    long push(long left, long right) {
+        return Math.max(left,right);
     }
-}
-
-void main() {
 }
