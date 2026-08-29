@@ -1,4 +1,4 @@
-package com.maths.problems;
+//package com.maths.problems;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -45,7 +45,7 @@ public class VIII {
     static boolean helper(long n,long m,long curr) {
         int a=count(m);
         int b=count(curr);
-        return a + b > 60 || m * curr > n;
+        return a + b > 61 || m * curr > n;
     }
     static int count(long n) {
         int c=0;
