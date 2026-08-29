@@ -1,6 +1,6 @@
 package com.range.algorithms;
 import java.util.*;
-public class II {
+public class A2 {
     static void main() {
 
         int[] arr = {5, 2, 8, 1, 9, 3, 7, 4};

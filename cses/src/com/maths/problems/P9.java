@@ -1,11 +1,11 @@
-package com.maths.problems;
+//package com.maths.problems;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 
-public class IX {
+public class P9 {
     static BufferedReader br = new BufferedReader(
             new InputStreamReader(System.in));
     static int MAX=(int)1e6;
@@ -21,6 +21,7 @@ public class IX {
     }
     static int[] dp;
     static int[] temp;
+    static int[][] num;
     static void solve(int[] arr, int n) {
         fill(arr, n);
         long total =((long)n*(n-1))/2;
@@ -58,13 +59,14 @@ public class IX {
     }
     static int[] helper(int n) {
         ArrayList<Integer> list=new ArrayList<>();
-        int x= 2;
-        while(x*x<=n) {
-            if(n%x==0) list.add(x);
-            while(n%x==0) n/=x;
-            x++;
+        int prev=-1;
+        while(n!=1) {
+            if(num[n][0]!=prev) {
+                prev=num[n][0];
+                list.add(prev);
+            }
+            n=num[n][1];
         }
-        if(n!=1) list.add(n);
         int[] arr=new int[list.size()];
         for(int i=0;i<arr.length;i++) arr[i]=list.get(i);
         return arr;
@@ -72,9 +74,15 @@ public class IX {
     static void fill(int[] arr, int n) {
         dp=new int[MAX+1];
         temp=new int[MAX+1];
+        num=new int[MAX+1][2];
         for(int i=0;i<n;i++) temp[arr[i]]++;
         for(int i=2;i<=MAX;i++) {
-            for(int j=i;j<=MAX;j+=i) dp[i]+=temp[j];
+            for(int j=i;j<=MAX;j+=i) {
+                dp[i]+=temp[j];
+                if(num[j][0]!=0) continue;
+                num[j][0]=i;
+                num[j][1]=j/i;
+            }
         }
     }
 }

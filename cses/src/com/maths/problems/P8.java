@@ -1,10 +1,10 @@
-//package com.maths.problems;
+package com.maths.problems;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 
-public class VIII {
+public class P8 {
     static BufferedReader br = new BufferedReader(
             new InputStreamReader(System.in));
     static int mod= (int)1e9+7;

@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 
-public class VII {
+public class P7 {
     static BufferedReader br = new BufferedReader(
             new InputStreamReader(System.in));
     static int mod= (int)1e9+7;
