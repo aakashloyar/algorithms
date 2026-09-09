@@ -7,7 +7,7 @@ import java.util.*;
 public class P11 {
     static BufferedReader br = new BufferedReader(
             new InputStreamReader(System.in));
-    void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException {
         StringTokenizer s2
                 = new StringTokenizer(br.readLine());
         int n = Integer.parseInt(s2.nextToken());
@@ -26,7 +26,7 @@ public class P11 {
         }
         solve(arr,que,n,q);
     }
-    void solve(long[] arr, int[][] que, int n, int q) {
+    static void solve(long[] arr, int[][] que, int n, int q) {
         ArrayList<Long> res= new ArrayList<>();
         long[] dp=new long[n];
         dp[0]= arr[0];
@@ -72,7 +72,6 @@ class LP {
         this.arr=arr;
     }
     long build(int ind, int low, int high) {
-        if(low>high) return Long.MIN_VALUE;
         if(low==high) return seg[ind]=arr[low];
         int m= low+(high-low)/2;
         long left=build(ind*2+1, low,m);
@@ -91,8 +90,8 @@ class LP {
         return push(left, right);
     }
     long update(int ind, int low, int high, int s, int e, long val) {
-        if (high < s || e < low) return seg[ind];
         propogate(ind,low,high);
+        if (high < s || e < low) return seg[ind];
         if(s<=low && high<=e) {
             lazy[ind]+=val;
             propogate(ind,low, high);
