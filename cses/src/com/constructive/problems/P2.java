@@ -1,4 +1,5 @@
 //package com.constructive.problems;
+package com.construction.problems;
 
 import java.io.*;
 import java.util.*;
@@ -64,6 +65,24 @@ public class P2 {
             a++;
             b--;
         }
+        StringTokenizer s2
+                = new StringTokenizer(br.readLine());
+        int n = Integer.parseInt(s2.nextToken());
+        long k=Long.parseLong(s2.nextToken());
+        solve(n,k);
+    }
+    static void solve(int n,long k ) {
+        int[] res=new int[n];
+        int s=1,e=n;
+        for(int i=0;i<n;i++) {
+            int p=n-i-1;
+            if(k>=p) {
+                res[i]=e--;
+                k-=p;
+            } else res[i]=s++;
+        }
+        print(res);
+
     }
     static void print(int[] arr) {
         PrintWriter out=new PrintWriter(System.out);
