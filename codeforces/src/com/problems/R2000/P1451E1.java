@@ -1,4 +1,4 @@
-package com.problems.R2000;
+//package com.problems.R2000;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,23 +14,22 @@ public class P1451E1 {
         StringTokenizer s2
                 = new StringTokenizer(br.readLine());
         int n = Integer.parseInt(s2.nextToken());
-        System.out.println(n);
-        //solve(n);
+        solve(n);
     }
     static void solve(int n) throws IOException {
         int[] res= new int[n+1];
-        int AandB= IR(18,2,"and");
-        int AorB= IR(1,2,"xor");
-        int AandC= IR(1,3,"and");
-        int BandC= IR(2,3,"and");
-        int AxorC= IR(1,3,"xor");
+        int AandB= IR(1,2,"AND");
+        int AorB= IR(1,2,"OR");
+        int AandC= IR(1,3,"AND");
+        int BandC= IR(2,3,"AND");
+        int AxorC= IR(1,3,"XOR");
         //now getting value for index 1
         //taking the set index in 1 and 2
         int a=AandB;
         //taking the set index in 1 and 3
         a|=AandC;
         //now let us evaluate the index which are like 0,1 for a,b and 0,1 or 0,0 for a,c
-        res[0]=func1(a, AorB, BandC, AxorC);
+        res[1]=func1(a, AorB, BandC, AxorC);
 
         //now getting value of second and third index
         int AxorB=AorB-AandB;
@@ -54,7 +53,7 @@ public class P1451E1 {
         return res;
     }
     static void solveAfterSecondIndex(int[] res,int n) throws IOException {
-        for(int i=4;i<=n;i++) res[i]=IR(1,i,"xor")^res[1];
+        for(int i=4;i<=n;i++) res[i]=IR(1,i,"XOR")^res[1];
     }
     static void print(int[] res) {
         PrintWriter out=new PrintWriter(System.out);
