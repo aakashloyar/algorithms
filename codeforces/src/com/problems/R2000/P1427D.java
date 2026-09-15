@@ -1,4 +1,4 @@
-package com.problems.R2000;
+//package com.problems.R2000;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,20 +10,14 @@ public class P1427D {
     static BufferedReader br = new BufferedReader(
             new InputStreamReader(System.in));
     public static void main(String[] args) throws IOException {
-
-        StringTokenizer s1
+        StringTokenizer s2
                 = new StringTokenizer(br.readLine());
-        int t = Integer.parseInt(s1.nextToken());
-        while(t-->0) {
-            StringTokenizer s2
-                    = new StringTokenizer(br.readLine());
-            int n = Integer.parseInt(s2.nextToken());
-            int[] arr=new int[n+1];
-            StringTokenizer s3
-                    = new StringTokenizer(br.readLine());
-            for(int i=0;i<=n;i++) arr[i]=Integer.parseInt(s3.nextToken());
-            solve(arr,n);
-        }
+        int n = Integer.parseInt(s2.nextToken());
+        int[] arr=new int[n+1];
+        StringTokenizer s3
+                = new StringTokenizer(br.readLine());
+        for(int i=1;i<=n;i++) arr[i]=Integer.parseInt(s3.nextToken());
+        solve(arr,n);
     }
     static void solve(int[] arr,int n) {
         ArrayList<ArrayList<Integer>> res=new ArrayList<>();
@@ -33,13 +27,14 @@ public class P1427D {
             //now we have got the index where we have 1
             //this is our main chain we need to merge other chains in it
             int[] range= range(arr,n,ind);
-            int nextchainindex= search(arr,n,range[1]+1);
+            int nextchainindex= search(arr,n,arr[range[1]]+1);
 
             int[][] rangeArr;
             if(nextchainindex<range[1]) {
                 //coming to our merging logic in main chain
                 rangeArr=new int[2][2];
                 int[] range1= range(arr,n,nextchainindex);
+                range1[1]=range[0]-1;
                 rangeArr[0]=range;
                 rangeArr[1]=range1;
             } else {
@@ -51,18 +46,18 @@ public class P1427D {
                 int pNextConsIndex= search(arr,n,arr[p]+1);
                 int[] range1=range(arr, n, p);
                 int[] range2=range(arr,n,pNextConsIndex);
+                range2[1]=range1[0]-1;
                 //now we have 3 range so we can just arrange them in ascending order
                 //then we can just add them to list and add any missing range
-                rangeArr=new int[3][2];
-                rangeArr[0]=range;
-                rangeArr[1]=range1;
-                rangeArr[2]=range2;
+                rangeArr=new int[2][2];
+                rangeArr[0]=range1;
+                rangeArr[1]=range2;
             }
             ArrayList<Integer> revarr=filter(n,rangeArr);
             arr=rev(arr,n,revarr);
             res.add(revarr);
         }
-        print(res);
+        print(res, n);
     }
     static ArrayList<Integer> filter(int n, int[][] range) {
         sort2darray(range);
@@ -90,7 +85,7 @@ public class P1427D {
         for(int i=1;i<=n;i++) {
             if(arr[i]==p) return i;
         }
-        return -1;
+        return n+1;
     }
     static int[] range(int[] arr, int n, int ind) {
         int l=ind, r=ind;
@@ -107,6 +102,7 @@ public class P1427D {
             while(s<last) {
                 temp[k++]=arr[s++];
             }
+            last=revarr.get(i);
         }
         return temp;
     }
@@ -114,12 +110,13 @@ public class P1427D {
         for(int i=1;i<=n;i++) if(arr[i]!=i) return false;
         return true;
     }
-    static void print(ArrayList<ArrayList<Integer>> res) {
+    static void print(ArrayList<ArrayList<Integer>> res, int n) {
         PrintWriter out=new PrintWriter(System.out);
+        for(int i=0;i<res.size();i++) res.get(i).add(n+1);
         out.print(res.size()+"\n");
         for (ArrayList<Integer> arr: res) {
-            out.print(arr.size()+" ");
-            for(Integer curr:arr) out.print(curr+" ");
+            out.print(arr.size()-1+" ");
+            for(int i=1;i<arr.size();i++) out.print((arr.get(i)-arr.get(i-1))+" ");
             out.print("\n");
         }
         out.flush();
