@@ -1,5 +1,4 @@
-//package com.constructive.problems;
-package com.construction.problems;
+package com.constructive.problems;
 
 import java.io.*;
 import java.util.*;
@@ -18,7 +17,7 @@ public class P2 {
             solve(n,k);
         }
     }
-    static void solve(int n,int k ) {
+    static void solve(int n,int k ) throws IOException{
         //6-> 6 5 4 3 //p=3
         //5 -> 5 4 3 //p=3
         //4-> 4 3 2 //p=2
@@ -56,7 +55,7 @@ public class P2 {
         }
         print(res);
     }
-    static void rev(int[] arr,int a,int b) {
+    static void rev(int[] arr,int a,int b) throws IOException{
         if(a>b) return;
         while(a<=b) {
             int temp=arr[a];
