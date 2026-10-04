@@ -1,4 +1,4 @@
-package com.range.problems;
+//package com.range.problems;
 
 import java.io.*;
 import java.util.*;
@@ -83,15 +83,28 @@ class ST {
         long right = query2(s, e, m + 1, high, ind * 2 + 2);
         return left+right;
     }
-    Node update(int p, int val, int low, int high, int ind) {
-        if (high < p || p < low) return null;
-        if(low==high) return seg[ind]=new Node(val,Math.max(val,0));
+    void update(int p, int val, int low, int high, int ind) {
+        if (high < p || p < low) return;
+        if(low==high) {
+            seg[ind]=new Node(val,Math.max(val,0));
+            return;
+        }
         int m = low + (high - low) / 2;
-        Node left= update(p, val, low,m,ind*2+1);
-        Node right= update(p,val,m+1,high,ind*2+2);
-        return seg[ind]=push(left, right);
+        update(p, val, low,m,ind*2+1);
+        update(p,val,m+1,high,ind*2+2);
+        seg[ind]=push(seg[ind*2+1], seg[ind*2+2]);
     }
-    Node push(Node left, Node right) {
+//    Node update(int p, int val, int low, int high, int ind) {
+//        if (high < p || p < low) return null;
+//        if (low == high) return seg[ind] = new Node(val, Math.max(val, 0));
+//        int m = low + (high - low) / 2;
+//        Node left = update(p, val, low, m, ind * 2 + 1);
+//        Node right = update(p, val, m + 1, high, ind * 2 + 2);
+//        return seg[ind] = push(left, right);
+//    }
+    //donot do this it will make you leave the returns which are not in the segment
+    //you will update their result to null check line number 98 and 263
+        Node push(Node left, Node right) {
         if(left==null) return right;
         if(right==null) return left;
         long pre=Math.max(left.pre, right.pre+left.sum);
