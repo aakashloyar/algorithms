@@ -1,4 +1,4 @@
-package com.problems.R2000;
+//package com.problems.R2000;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -32,9 +32,10 @@ public class P1427C {
         Arrays.fill(dp,-1);
         dp[0]=0;
         int k=0;
-        int max=-1;
+        int max=-2;
         for(int i=1;i<=n;i++) {
             if(i-k>2*r) max=Math.max(max,dp[k++]);
+            dp[i]=max+1;
             for(int j=i-1;j>=k;j--) {
                 if(dp[j]==-1 || !is(arr[j],arr[i])) continue;
                 dp[i]=Math.max(dp[i],dp[j]+1);
