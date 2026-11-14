@@ -1,4 +1,4 @@
-package com.range.problems;
+//package com.range.problems;
 import java.io.*;
 import java.util.*;
 
@@ -50,7 +50,7 @@ class ST {
     }
     void build(int low, int high, int ind) {
         if(low==high) {
-            seg[ind]=new Node(arr[low],Math.max(arr[low],0),Math.max(arr[low],0));
+            seg[ind]=new Node(arr[low],Math.max(arr[low],0),Math.max(arr[low],0),Math.max(arr[low],0));
             return;
         }
         int m= low+(high-low)/2;
@@ -69,7 +69,7 @@ class ST {
     void update(int p, int val, int low, int high, int ind) {
         if (high < p || p < low) return;
         if(low==high) {
-            seg[ind]=new Node(val,Math.max(val,0),Math.max(val,0));
+            seg[ind]=new Node(val,Math.max(val,0),Math.max(val,0),Math.max(val,0));
             return;
         }
         int m = low + (high - low) / 2;
@@ -80,15 +80,17 @@ class ST {
     Node push(Node left, Node right) {
         if(left==null) return right;
         if(right==null) return left;
+        long pre=Math.max(left.pre,right.pre+left.sum);
         long suf=Math.max(right.suf, right.sum+left.suf);
-        long max=Math.max(Math.max(left.max,right.max),right.max+left.suf);
-        return new Node(left.sum+ right.sum, suf, max);
+        long max=Math.max(Math.max(left.max,right.max),left.suf+right.pre);
+        return new Node(left.sum+ right.sum, pre, suf, max);
     }
 }
 class Node {
-    long sum,suf,max;
-    Node(long sum, long suf, long max) {
+    long sum, pre, suf,max;
+    Node(long sum, long pre, long suf, long max) {
         this.sum=sum;
+        this.pre=pre;
         this.suf=suf;
         this.max=max;
     }
