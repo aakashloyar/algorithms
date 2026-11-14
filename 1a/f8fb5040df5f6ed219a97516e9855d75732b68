@@ -1,0 +1,16 @@
+cses/src/com/range/problems/P11B.java
+  h_6fce61bebff0e2 2-85,88,90-105,107
+cses/src/com/range/problems/P15.java
+  h_6fce61bebff0e2 1-95
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "1af8fb5040df5f6ed219a97516e9855d75732b68",
+  "prompts": {},
+  "humans": {
+    "h_6fce61bebff0e2": {
+      "author": "aakashloyar <aakashloyar@gmail.com>"
+    }
+  }
+}
